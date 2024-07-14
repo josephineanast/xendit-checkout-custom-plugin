@@ -22,7 +22,7 @@ function xendit_handle_callback(WP_REST_Request $request) {
         $table_name = $wpdb->prefix . 'order';
         $wpdb->update(
             $table_name,
-            array('status' => 'Success'),
+            array('status' => 'Lunas'),
             array('invoice' => $data['external_id'])
         );
     }

@@ -1,8 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("chckout");
+  let userData = {};
   const resultDiv = document.getElementById("payment-result");
 
   form.addEventListener("change", function (event) {
+    if (event.target.name === "pengiriman" && event.target.value === "yes") {
+      if (window.existingUserData) {
+        userData = window.existingUserData;
+      } else {
+        userData = {};
+      }
+    }
+
     if (event.target.name === "pembayaran" && event.target.value === "xendit") {
       form.addEventListener("submit", handleXenditPayment);
     } else {
@@ -15,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
+    Object.assign(data, userData);
 
     fetch("/wp-json/xendit-checkout/v1/create-invoice", {
       method: "POST",
